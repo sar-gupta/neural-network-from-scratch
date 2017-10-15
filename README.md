@@ -17,6 +17,10 @@ dill: `pip3 install dill`
 
 python-mnist: `pip3 install python-mnist`
 
+### Running the classifier
+
+`python3 classify-mnist.py`
+
 ## Author
 
 * **Sarthak Gupta** - [thesemicolonguy](https://github.com/thesemicolonguy)
