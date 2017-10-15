@@ -18,7 +18,7 @@ python-mnist: `pip3 install python-mnist`
 
 ## Author
 
-* **Sarthak Gupta** * - [thesemicolonguy](https://github.com/thesemicolonguy)
+* **Sarthak Gupta** - [thesemicolonguy](https://github.com/thesemicolonguy)
 
 ## License
 
