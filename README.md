@@ -1,6 +1,7 @@
 # Neural Network from Scratch
 
-Implementation of a simple artificial neural network from scratch in python.
+* Implementation of a simple artificial neural network from scratch in python.
+* Classification of MNIST dataset.
 
 ## Getting Started
 
