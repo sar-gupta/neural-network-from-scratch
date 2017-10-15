@@ -22,4 +22,4 @@ python-mnist: `pip3 install python-mnist`
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/thesemicolonguy/neural-network-from-scratch/blob/master/LICENSE) file for details
