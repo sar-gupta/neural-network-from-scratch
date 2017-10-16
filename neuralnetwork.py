@@ -24,18 +24,23 @@ class neural_network:
             print("== EPOCH: ", j, " ==")
             while i+batch_size != len(inputs):
                 self.error = 0  
+                # input_batch = []
+                # label_batch = []
+                # # print(i)
+                # for i in range(i, i+batch_size):
+                #     input_batch.append(inputs[i])
+                #     label_batch.append(labels[i])   
                 self.forward_pass(inputs[i:i+batch_size])
                 self.calculate_error(labels[i:i+batch_size])
                 self.back_pass(labels[i:i+batch_size])
-                i += batch_size
+                i += 1
             print("Error: ", self.error)
         dill.dump_session(filename)
 
     def forward_pass(self, inputs):
         self.layers[0].activations = inputs
         for i in range(self.num_layers-1):
-            self.layers[i].add_bias(self.batch_size, self.layers[i+1].num_nodes_in_layer)
-            temp = np.add(np.matmul(self.layers[i].activations, self.layers[i].weights_for_layer), self.layers[i].bias_for_layer)
+            temp = np.matmul(self.layers[i].activations, self.layers[i].weights_for_layer)
             if self.layers[i+1].activation_function == "sigmoid":
                 self.layers[i+1].activations = self.sigmoid(temp)
             elif self.layers[i+1].activation_function == "softmax":
@@ -128,8 +133,3 @@ class layer:
             self.weights_for_layer = np.random.normal(0, 0.001, size=(num_nodes_in_layer, num_nodes_in_next_layer))
         else:
             self.weights_for_layer = None
-            self.bias_for_layer = None
-     
-    def add_bias(self, batch_size, num_nodes_in_next_layer):
-        if num_nodes_in_next_layer != 0:
-            self.bias_for_layer = np.random.normal(0, 0.01, size=(batch_size, num_nodes_in_next_layer))
