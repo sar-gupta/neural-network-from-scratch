@@ -52,7 +52,10 @@ class neural_network:
 
     def softmax(self, layer):
         exp = np.exp(layer)
-        return exp/np.sum(exp, axis=1, keepdims=True)
+        if type(layer[0]) == "list":
+            return exp/np.sum(exp, axis=1, keepdims=True)
+        else:
+            return exp/np.sum(exp, keepdims=True)
 
     def sigmoid(self, layer):
         return np.divide(1, np.add(1, np.exp(layer)))
@@ -100,15 +103,13 @@ class neural_network:
         self.batch_size = len(inputs)
         self.forward_pass(inputs)
         a = self.layers[self.num_layers-1].activations
-        num_classes = 10
-        targets = np.array([a]).reshape(-1)
-        a = np.asarray(a)
-        one_hot_labels = np.eye(num_classes)[a.astype(int)]
+        a[np.where(a==np.max(a))] = 1
+        a[np.where(a!=np.max(a))] = 0
         total=0
         correct=0
         for i in range(len(a)):
             total += 1
-            if np.equal(one_hot_labels[i], labels[i]).all():
+            if np.equal(a[i], labels[i]).all():
                 correct += 1
         print("Accuracy: ", correct*100/total)
 
