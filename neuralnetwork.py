@@ -52,7 +52,7 @@ class neural_network:
 
     def softmax(self, layer):
         exp = np.exp(layer)
-        if type(layer[0]) == "list":
+        if isinstance(layer[0], np.ndarray):
             return exp/np.sum(exp, axis=1, keepdims=True)
         else:
             return exp/np.sum(exp, keepdims=True)
