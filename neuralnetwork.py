@@ -28,6 +28,7 @@ class neural_network:
                 self.calculate_error(labels[i:i+batch_size])
                 self.back_pass(labels[i:i+batch_size])
                 i += batch_size
+            self.error /= batch_size
             print("Error: ", self.error)
         dill.dump_session(filename)
 
@@ -71,9 +72,9 @@ class neural_network:
             return
         
         if self.cost_function == "mean_squared":
-            self.error = np.mean(np.divide(np.square(np.subtract(labels, self.layers[self.num_layers-1].activations)), 2))
+            self.error += np.mean(np.divide(np.square(np.subtract(labels, self.layers[self.num_layers-1].activations)), 2))
         elif self.cost_function == "cross_entropy":
-            self.error = np.negative(np.sum(np.multiply(labels, np.log(self.layers[self.num_layers-1].activations))))
+            self.error += np.negative(np.sum(np.multiply(labels, np.log(self.layers[self.num_layers-1].activations))))
 
     def back_pass(self, labels):
         # if self.cost_function == "cross_entropy" and self.layers[self.num_layers-1].activation_function == "softmax":
