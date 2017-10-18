@@ -34,7 +34,7 @@ class neural_network:
     def forward_pass(self, inputs):
         self.layers[0].activations = inputs
         for i in range(self.num_layers-1):
-            temp = np.matmul(self.layers[i].activations, self.layers[i].weights_for_layer)
+            temp = np.add(np.matmul(self.layers[i].activations, self.layers[i].weights_for_layer), self.layers[i].bias_for_layer)
             if self.layers[i+1].activation_function == "sigmoid":
                 self.layers[i+1].activations = self.sigmoid(temp)
             elif self.layers[i+1].activation_function == "softmax":
@@ -80,14 +80,21 @@ class neural_network:
         targets = labels
         i = self.num_layers-1
         y = self.layers[i].activations
-        deltaw = np.matmul(np.asarray(self.layers[i-1].activations).T, np.multiply(y, np.multiply(1-y, targets-y)))
+        deltab = np.multiply(y, np.multiply(1-y, targets-y))
+        deltaw = np.matmul(np.asarray(self.layers[i-1].activations).T, deltab)
         new_weights = self.layers[i-1].weights_for_layer - self.learning_rate * deltaw
+        new_bias = self.layers[i-1].bias_for_layer - self.learning_rate * deltab
         for i in range(i-1, 0, -1):
             y = self.layers[i].activations
+            deltab = np.multiply(y, np.multiply(1-y, np.sum(np.multiply(new_bias, self.layers[i].bias_for_layer)).T))
             deltaw = np.matmul(np.asarray(self.layers[i-1].activations).T, np.multiply(y, np.multiply(1-y, np.sum(np.multiply(new_weights, self.layers[i].weights_for_layer),axis=1).T)))
             self.layers[i].weights_for_layer = new_weights
+            self.layers[i].bias_for_layer = new_bias
             new_weights = self.layers[i-1].weights_for_layer - self.learning_rate * deltaw
+            new_bias = self.layers[i-1].bias_for_layer - self.learning_rate * deltab
         self.layers[0].weights_for_layer = new_weights
+        self.layers[0].bias_for_layer = new_bias
+        
     
     def predict(self, filename, input):
         dill.load_session(filename)
@@ -126,5 +133,7 @@ class layer:
         self.activations = np.zeros([num_nodes_in_layer,1])
         if num_nodes_in_next_layer != 0:
             self.weights_for_layer = np.random.normal(0, 0.001, size=(num_nodes_in_layer, num_nodes_in_next_layer))
+            self.bias_for_layer = np.random.normal(0, 0.01, size=(1, num_nodes_in_next_layer))
         else:
             self.weights_for_layer = None
+            self.bias_for_layer = None
