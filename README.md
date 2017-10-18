@@ -5,9 +5,9 @@
 
 Accompanying blog posts:
 
-DL01: https://medium.com/@thesemicolonguy/dl01-writing-a-neural-network-from-scratch-theory-c02ccc897864
+DL01: https://hackernoon.com/dl01-writing-a-neural-network-from-scratch-theory-c02ccc897864
 
-DL02: https://medium.com/@thesemicolonguy/dl02-writing-a-neural-network-from-scratch-code-b32f4877c257
+DL02: https://hackernoon.com/dl02-writing-a-neural-network-from-scratch-code-b32f4877c257
 
 
 ## Getting Started
