@@ -19,18 +19,22 @@ class neural_network:
     def train(self, batch_size, inputs, labels, num_epochs, learning_rate, filename):
         self.batch_size = batch_size
         self.learning_rate = learning_rate
-        for j in range(num_epochs):
-            i = 0
-            print("== EPOCH: ", j, " ==")
-            while i+batch_size != len(inputs):
-                self.error = 0 
-                self.forward_pass(inputs[i:i+batch_size])
-                self.calculate_error(labels[i:i+batch_size])
-                self.back_pass(labels[i:i+batch_size])
-                i += batch_size
-            self.error /= batch_size
-            print("Error: ", self.error)
-        dill.dump_session(filename)
+        # Check if length of inputs is multiple of batch size
+        if len(inputs) % self.batch_size == 0:
+            for j in range(num_epochs):
+                i = 0
+                print("== EPOCH: ", j, " ==")
+                while i+batch_size != len(inputs):
+                    self.error = 0
+                    self.forward_pass(inputs[i:i+batch_size])
+                    self.calculate_error(labels[i:i+batch_size])
+                    self.back_pass(labels[i:i+batch_size])
+                    i += batch_size
+                self.error /= batch_size
+                print("Error: ", self.error)
+            dill.dump_session(filename)
+        else:
+            print("Error: Input length not multiple of batch size")
 
     def forward_pass(self, inputs):
         self.layers[0].activations = inputs
