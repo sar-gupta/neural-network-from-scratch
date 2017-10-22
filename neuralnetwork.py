@@ -9,6 +9,9 @@ class neural_network:
         self.layers = []
         self.cost_function = cost_function
 
+        if not num_layers == len(num_nodes):
+            raise ValueError("Number of layers must match number node counts")
+
         for i in range(num_layers):
             if i != num_layers-1:
                 layer_i = layer(num_nodes[i], num_nodes[i+1], activation_function[i])
@@ -16,14 +19,27 @@ class neural_network:
                 layer_i = layer(num_nodes[i], 0, activation_function[i])
             self.layers.append(layer_i)
 
+    def check_training_data(self, batch_size, inputs, labels):
+        self.batch_size = batch_size
+        if not len(inputs) % self.batch_size == 0:
+            raise ValueError("Batch size must be multiple of number of inputs")
+        if not len(inputs) == len(labels):
+            raise ValueError("Number of inputs must match number of labels")
+        for i in range(len(inputs)):
+            if not len(inputs[i]) == self.num_nodes[0]:
+                raise ValueError("Length of each input data must match number of input nodes")
+            if not len(labels[i]) == self.num_nodes[-1]:
+                raise ValueError("Length of each label data must match number of output nodes")
+
     def train(self, batch_size, inputs, labels, num_epochs, learning_rate, filename):
         self.batch_size = batch_size
         self.learning_rate = learning_rate
+        self.check_training_data(self.batch_size, inputs, labels)
         for j in range(num_epochs):
             i = 0
             print("== EPOCH: ", j, " ==")
             while i+batch_size != len(inputs):
-                self.error = 0 
+                self.error = 0
                 self.forward_pass(inputs[i:i+batch_size])
                 self.calculate_error(labels[i:i+batch_size])
                 self.back_pass(labels[i:i+batch_size])
@@ -70,7 +86,7 @@ class neural_network:
             print("Label: ", len(labels), " : ", len(labels[0]))
             print("Out: ", len(self.layers[self.num_layers-1].activations), " : ", len(self.layers[self.num_layers-1].activations[0]))
             return
-        
+
         if self.cost_function == "mean_squared":
             self.error += np.mean(np.divide(np.square(np.subtract(labels, self.layers[self.num_layers-1].activations)), 2))
         elif self.cost_function == "cross_entropy":
@@ -95,8 +111,8 @@ class neural_network:
             new_bias = self.layers[i-1].bias_for_layer - self.learning_rate * deltab
         self.layers[0].weights_for_layer = new_weights
         self.layers[0].bias_for_layer = new_bias
-        
-    
+
+
     def predict(self, filename, input):
         dill.load_session(filename)
         self.batch_size = 1
@@ -125,7 +141,7 @@ class neural_network:
 
     def load_model(self, filename):
         dill.load_session(filename)
-        
+
 
 class layer:
     def __init__(self, num_nodes_in_layer, num_nodes_in_next_layer, activation_function):
