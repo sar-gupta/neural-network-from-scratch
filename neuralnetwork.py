@@ -37,15 +37,17 @@ class neural_network:
         self.check_training_data(self.batch_size, inputs, labels)
         for j in range(num_epochs):
             i = 0
-            print("== EPOCH: ", j, " ==")
+            print("== EPOCH: ", j+1, "/", num_epochs, " ==")
             while i+batch_size != len(inputs):
+                print("Training with ", i+batch_size+1, "/", len(inputs), end="\r")
                 self.error = 0
                 self.forward_pass(inputs[i:i+batch_size])
                 self.calculate_error(labels[i:i+batch_size])
                 self.back_pass(labels[i:i+batch_size])
                 i += batch_size
             self.error /= batch_size
-            print("Error: ", self.error)
+            print("\nError: ", self.error)
+        print("Saving...")
         dill.dump_session(filename)
 
     def forward_pass(self, inputs):
