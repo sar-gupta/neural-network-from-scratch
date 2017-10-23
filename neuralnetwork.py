@@ -75,7 +75,7 @@ class neural_network:
             return exp/np.sum(exp, keepdims=True)
 
     def sigmoid(self, layer):
-        return np.divide(1, np.add(1, np.exp(layer)))
+        return np.divide(1, np.add(1, np.exp(np.negative(layer))))
 
     def tanh(self, layer):
         return np.tanh(layer)
