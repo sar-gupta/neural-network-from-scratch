@@ -46,7 +46,7 @@ class neural_network:
                 self.back_pass(labels[i:i+batch_size])
                 i += batch_size
             self.error /= batch_size
-            print("\nError: ", self.error)
+            print("\nErr: ", self.error)
         print("Saving...")
         dill.dump_session(filename)
 
