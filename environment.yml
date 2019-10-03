@@ -1,0 +1,11 @@
+name: nnfs
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - dill
+  - numpy
+  - python=3.6.7
+  - pip:
+    - python-mnist
+
