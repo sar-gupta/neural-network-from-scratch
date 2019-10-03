@@ -1,0 +1,3 @@
+dill
+numpy
+python-mnist
