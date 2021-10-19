@@ -1,0 +1,3 @@
+numpy~=1.21.0
+dill~=0.3.4
+python-mnist~=0.7
