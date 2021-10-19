@@ -137,7 +137,7 @@ class neural_network:
             total += 1
             if np.equal(a[i], labels[i]).all():
                 correct += 1
-        print("Accuracy: ", correct*100/total)
+        print("Accuracy: ", ((correct/total) * 100))
 
 
 
