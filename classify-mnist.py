@@ -1,6 +1,6 @@
 
 import numpy as np
-import main as nn
+import neuralnetwork as nn
 #
 
 print("Starting...")
