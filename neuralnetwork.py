@@ -117,7 +117,7 @@ class neural_network:
             temp = np.add(np.matmul(self.layers[i].activations, self.layers[i].weights_for_layer),
                           self.layers[i].bias_for_layer)
             # print(type(self.layers[i+1].activations),type(temp))
-            self.layers[i + 1].activations = sigmoid(temp)
+            self.layers[i + 1].activations = self.activation_function(temp)
 
     def calculate_error(self, labels):
         if len(labels[0]) != self.layers[self.num_layers - 1].num_nodes_in_layer:
